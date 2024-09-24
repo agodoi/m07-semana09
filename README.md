@@ -148,9 +148,9 @@ Dependendo da forma que você interage com as aplicações de RDS do seu projeto
 
 Se sua aplicações aceita os caracteres especiais, é provável que ela esteja vulnerável. 
 
-* **'**
-* **"**
-* **;**
+* **'** aspas simples
+* **"** aspas dupla
+* **;** ponto e vírgula
 
 
 
