@@ -39,7 +39,7 @@ Dependendo da forma que você interage com as aplicações de RDS do seu projeto
    - O sistema descrito precisa suportar grandes volumes de transações. Implementar medidas de segurança contra SQL Injection permite que a plataforma escale de forma segura, sem se tornar mais vulnerável à medida que o volume de usuários e transações cresce.
 
 
-## 2) Como o ataque funciona?
+## 2) Como funciona o ataque?
 
 #### 2.1) Um atacante insere código SQL malicioso em um campo de entrada de um site ou aplicação, isto é, ele usa a sua API, a sua aplicação para chegar no seu RDS.
 
