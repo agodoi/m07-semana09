@@ -153,6 +153,46 @@ Se sua aplicações aceita os caracteres especiais, é provável que ela esteja 
 * **;** ponto e vírgula
 
 
+### 4) Passos
+
+**4.1)** No seu Learner Lab, crie uma instância do RDS:
+
+**4.2)** No painel do Amazon RDS, vá no menu à esquerda, clique em **Bancos de dados**, e depois, clique em **Criar banco de dados**;
+
+**4.3)** Escolha o modo padrão para tudo, como **MySQL**;
+
+**4.4)** Deixe todas as opções originais sem mexer, apenas coloque um nome no seu banco trocando o **database-1** por meu **meuBancoExposto**;
+
+**4.5)** Na opção **Nuvem privada virtual (VPC)**, deixe na Default VPC. Em **Grupos de sub-rede de banco de dados**, deixe **default**;
+
+**4.6)** Na opção **Acesso público**, deixe **Sim**;
+
+**4.7)** Em **Grupos de segurança da VPC existente**, deixe **default**;
+
+**4.8)** Não mexa em mais nenhum opção, e 
+
+
+4.4) Selecione a classe do banco de dados (como db.t3.micro para testes gratuitos).
+Defina as configurações de rede (VPC, sub-redes) e as credenciais de administrador (nome de usuário e senha).
+Habilite a opção de "Acesso público" para que você possa acessar o banco de dados externamente durante o teste.
+Defina o tamanho de armazenamento de acordo com suas necessidades (pode ser o mínimo para testes).
+1.3. Configurar Regras de Segurança
+Crie um Security Group para a instância de RDS que permita o tráfego de entrada na porta 3306 (para MySQL).
+Garanta que seu IP ou a rede da aplicação tenha acesso à instância do banco de dados.
+1.4. Criar a Tabela de Usuários no Banco
+Após a instância estar ativa, conecte-se ao banco de dados usando um cliente de banco de dados (como MySQL Workbench ou DBeaver) com as credenciais que você criou.
+Crie uma tabela de usuários simples com um campo de nome de usuário, senha e função (normal ou admin). Exemplo de SQL para criar a tabela:
+
+
+
+
+
+
+
+
+
+
+
 
 ## X) Outras Boas Práticas de Segurança na AWS
    - Least Privilege Principle (Princípio do Menor Privilégio): Assegure-se de que os usuários e aplicações tenham apenas as permissões necessárias. Evite dar privilégios administrativos sem necessidade.
