@@ -4,7 +4,7 @@ Neste encontro iremos abordar a proteção de dados na nuvem no contexto de dese
 
 # Vantagens para o seu Projeto
 
-Entender os riscos de SQL Injection no projeto da Vivo minimiza as vulnerabilidades, já que o SQL Injection é um tipo de ataque que visa explorar falhas de segurança em aplicações que interagem com bancos de dados, permitindo que invasores insiram ou manipulem consultas SQL maliciosas.
+Entender os riscos de SQL Injection no projeto da Vivo minimiza as vulnerabilidades, já que o SQL Injection é dos ataques mais famosos que visa explorar falhas de segurança em aplicações que interagem com bancos de dados, permitindo que invasores insiram ou manipulem consultas SQL maliciosas.
 
 Dependendo da forma que você interage com as aplicações de RDS do seu projeto, o invasor pode apagar seu banco em alguns segundos.
 
@@ -52,17 +52,22 @@ Esse código é então executado pelo banco de dados, podendo alterar sua opera�
 # Exemplo básico de SQL Injection
 
    Suponha que a aplicação tenha o seguinte código para verificar usuários:
+   
    ```
    SELECT * FROM users WHERE username = '$username' AND password = '$password';
    ```
+   
    Se o atacante insere no campo de senha:
-   ```sql
+   
+   ```
    ' OR '1'='1
    ```
    A consulta SQL se torna:
-   ```sql
+   
+   ```
    SELECT * FROM users WHERE username = 'admin' AND password = '' OR '1'='1';
    ```
+
    Isso retorna verdadeiro para todos os usuários, permitindo acesso não autorizado.
 
 ---
