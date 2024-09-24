@@ -144,6 +144,14 @@ Dependendo da forma que você interage com as aplicações de RDS do seu projeto
 
 ---
 
+### 3.1) Uso de caracteres especiais
+
+Se sua aplicações aceita os caracteres especiais, é provável que ela esteja vulnerável. 
+
+* **'**
+* **"**
+* **;**
+
 
 
 ## X) Outras Boas Práticas de Segurança na AWS
