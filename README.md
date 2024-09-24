@@ -6,7 +6,7 @@ Neste encontro iremos abordar a proteção de dados na nuvem no contexto de dese
 
 Entender os riscos de SQL Injection no projeto da Vivo minimiza as vulnerabilidades, já que o SQL Injection é dos ataques mais famosos que visa explorar falhas de segurança em aplicações que interagem com bancos de dados, permitindo que invasores insiram ou manipulem consultas SQL maliciosas.
 
-O SQL Injection está na mesma calçada da fama de DDoS.
+O SQL Injection está na mesma calçada da fama de DDoS. Aqui na [Wikipedia](https://en.wikipedia.org/wiki/SQL_injection#Examples) você encontra um histórico dos principais ataques.
 
 
 <picture>
@@ -146,7 +146,7 @@ Dependendo da forma que você interage com as aplicações de RDS do seu projeto
 
 
 
-### 4. Outras Boas Práticas de Segurança na AWS
+## X) Outras Boas Práticas de Segurança na AWS
    - Least Privilege Principle (Princípio do Menor Privilégio): Assegure-se de que os usuários e aplicações tenham apenas as permissões necessárias. Evite dar privilégios administrativos sem necessidade.
    - Multi-Factor Authentication (MFA): Habilite MFA para usuários IAM para aumentar a segurança das credenciais.
    - Security Groups & NACLs: Limite o acesso ao banco de dados usando regras de Security Groups e Network ACLs, permitindo apenas o tráfego necessário.
@@ -154,15 +154,4 @@ Dependendo da forma que você interage com as aplicações de RDS do seu projeto
 
 ---
 
-### 5. Conclusão
-   A prevenção de SQL Injection é uma parte crucial da segurança de qualquer aplicação web. Utilizando as ferramentas da AWS, como WAF, RDS, Secrets Manager e Cognito, é possível mitigar e proteger a aplicação contra essas ameaças. Além disso, é essencial adotar boas práticas de codificação e validação de entrada para reduzir as superfícies de ataque.
-
----
-
 ### 6. Exercício Prático
-   1. Desafio: Crie uma aplicação simples que conecte a um banco de dados RDS na AWS. Simule uma vulnerabilidade de SQL Injection e depois aplique as técnicas de mitigação usando AWS WAF e prepared statements.
-   2. Objetivo: O estudante deve demonstrar como a aplicação vulnerável pode ser atacada e, em seguida, corrigir a vulnerabilidade implementando medidas de segurança.
-
----
-
-Com essa estrutura de aula, você pode explorar SQL Injection em profundidade, focando tanto nos aspectos teóricos quanto nas práticas de defesa disponíveis na AWS.
