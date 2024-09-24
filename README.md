@@ -43,7 +43,7 @@ Dependendo da forma que você interage com as aplicações de RDS do seu projeto
 
 ## Passo-01: 
 
-Um atacante insere código SQL malicioso em um campo de entrada de um site ou aplicação.
+Um atacante insere código SQL malicioso em um campo de entrada de um site ou aplicação, isto é, ele usa a sua API, a sua aplicação para chegar no RDS.
 
 ## Passo-02:
 
