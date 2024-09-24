@@ -155,21 +155,97 @@ Se sua aplicações aceita os caracteres especiais, é provável que ela esteja 
 
 ### 4) Passos
 
+# Passo-01: Criando a VPC
+
+**1.1)** Busque por VPC no console da AWS;
+
+**1.2)** Clique no botão laranja CRIAR;
+
+**1.3)** Selecione **Somente VPC**.
+
+**1.4)** No campo **Tag de nome** digite **VPC_Arquitetura_Corp**.
+
+**1.5)** Bloco CIDR IPV4 digite **192.168.0.0/22**
+
+**1.6)** As demais opções, você não precisa mexer e basta confirmar no botão laranja.
+
+
+# Passo-02: Criando as sub-redes
+## sub-rede pública
+
+**2.1)** No menu vertical da VPC, clique em **sub-redes** e então, clique no botão laranja **Criar sub-redes** e aponte para a VPC corporativa que acabou de criar **VPC_Arquitetura_Corp**.
+
+**2.2)** No campo **Nome da sub-rede** coloque **Sub_Publica_a**.
+
+**2.3)** Em **Zona de disponibilidade** deixe **us-east-1a**.
+
+**2.4)** Em **Bloco CIDR IPV4** coloque um IP que esteja dentro da faixa da rede da VPC que você criou, então, **digite 192.168.0.0/24**. Essa faixa está dentro da faixa maior 192.168.0.0/22. Vamos discutir o mapa de endereçamento numa instrução futura. Aguente firme! Clique no botão laranja.
+
+## sub-rede privada
+
+**2.5)** Repetindo os passos para criar a Rede Privada, no menu vertical da VPC, clique em **sub-redes** e então, aponte para a VPC corporativa que acabou de criar **VPC_Arquitetura_Corp**.
+
+**2.6)** No campo **Nome da sub-rede** coloque **Sub_Privada_a**. Note que você está apontado para uma zona diferente da sua sub-rede pública. É uma estratégia para 
+[alta disponibilidade](https://github.com/agodoi/VocabularioAWS).
+
+**2.7)** Em **Zona de disponibilidade** deixe **us-east-1a**.
+
+**2.8)** Em **Bloco CIDR IPV4** coloque um IP que esteja dentro da faixa da rede da VPC que você criou, então, **digite 192.168.1.0/24**. Essa faixa está dentro da faixa maior 192.168.0.0/22. Novamente, vamos discutir o mapa de endereçamento numa instrução futura.
+
+
+**3.2)** Clique em **Criar tabela de rotas**, e em **nome** coloque **TabRota_Publica_ArqCorp** e selecione a VPC recém criada e confirme no botão laranja.
+
+**3.3)** Faça o mesmo para a sua subnet privada. Clique em **Criar tabela de rotas**, e em **nome** coloque **TabRota_Privada_ArqCorp** e selecione a VPC recém criada e confirme no botão laranja.
+
+Até agora, você só criou os nomes das Tabelas de Rotas que não sabem o que fazer ainda. Elas apenas estão dentro da sua VPC recém criada **VPC_Arquitetura_Corp**.
+
+**3.4)** Vamos agora associar as Tabelas de Rotas com as sub-redes propriamente ditas.
+
+**3.4.1)** Clique no link azul da tabela de rotas privada **TabRota_Privada_ArqCorp**, vá na aba **Associação de sub-rede**, clique no botão **Editar associações de sub-rede** e selecione a sub-rede privada **Sub_Privada_b** e confirme no botão laranja.
+
+**3.4.2)** Faça o mesmo para a tabela de rotas pública **TabRota_Publica_ArqCorp**, clicando em seu link azul, depois indo na aba **Associação de sub-rede**, clicando no botão **Editar associações de sub-rede** e selecione a sub-rede privada **Sub_Publica_a** e confirme no botão laranja.
+
+# Passo-04: Criando o IGW
+
+Esse elemento de rede resolve como sua rede pública vai encontrar a Internet.
+
+**4.1)** Para criar uma saída para Internet da sub-rede pública, vá no menu vertical esquerdo da VPC, clique em **Gateways da Internet**, depois **Criar gateway da Internet** e em **Tag name** digite **IGW_ArqCorp** e confirme no botão laranja. Cuidado agora! Você precisa associar o seu IGW à VPC_Arquitetura_Corp. Então clique no botão verde que vai aparecer na barra superior ou volte no menu vertical esquerdo, liste o seu **Gateways da Internet**, vá no botão **Ações**, selecione **Associar à VPC** e escolha a VPC recém criada e confirma no botão laranja.
+
+**4.2)** Volte na tabela de rotas **TabRota_Publica_ArqCorp** para indicar as regras de entrada e saída da sua VPC. Então, vá no menu esquerdo vertical, clique em **Tabela de Rotas** e escolha a **TabRota_Publica_ArqCorp**, e depois, vá na aba **Rotas**. Já existe uma rota padrão interna 192.168.0.0/22 mas isso não dá acesso externo à sua VPC e sim, somente acesso interno. Clique em **Editar rota**, depois **Adicionar rota** e selecione em **destino** 0.0.0.0/0 (que significa qualquer lugar) e em **alvo** você seleciona **Gateway da Internet** e daí vai aparecer a sua o **IGW_ArqCorp**, daí vc o seleciona e coloque para salvar no botão laranja.
+
+
+# Passo-05: Criando o NAT
+Agora vamos resolver o acesso à Internet da sub-rede privada, porém, acesso de saída. Não de entrada, por enquanto.
+
+**5.1)** No menu vertical da VPC, clique na opção **Gateways NAT**, depois clique no botão **Criar gateway NAT**, e depois, em nome coloque **NAT_ArqCorp** e na opção **sub-rede** você aponta para a **sub-rede pública**. Note que existe uma opção chamada **Tipo de conexão** que já está pré-marcada em **Público** e é isso que garante que sua sub-rede privada poderá acessar à Internet. Existe a opção também de **Alocar IP elástico**, então clique nesse botão **Alocar IP elástico** para gerar um IP elástico e daí você terá a opção como **eipalloc-xxxxxxxx**. Finalmente, clique no botão laranja para confirmar tudo.
+
+**5.2)** No meu vertical esquerdo da sua VPC, clique em **Tabela de rotas**, clique no link azul **TabRota_Privada_ArqCorp** e daí, **Editar rotas**, clique no botão **Adicionar rotas**, escolha o **Destino 0.0.0.0/0** (Internet externa) e coloque em **Alvo** como **Gateway NAT** (algo do tipo assim **nat-0f1c0fbcfded07cf8** vai aparecer). **Esse item gasta-se alguns minutos para propagar e começar a funcionar.**
+
+   
+
+
+
 **4.1)** No seu Learner Lab, crie uma instância do RDS:
 
 **4.2)** No painel do Amazon RDS, vá no menu à esquerda, clique em **Bancos de dados**, e depois, clique em **Criar banco de dados**;
 
 **4.3)** Escolha o modo padrão para tudo, como **MySQL**;
 
+**4.4)** Em **Modelos**, marque **Níve Gratuito**;
+
 **4.4)** Deixe todas as opções originais sem mexer, apenas coloque um nome no seu banco trocando o **database-1** por meu **meuBancoExposto**;
 
-**4.5)** Na opção **Nuvem privada virtual (VPC)**, deixe na Default VPC. Em **Grupos de sub-rede de banco de dados**, deixe **default**;
+4.5) Em Nome do usuário principal, deixe **admin** (tudo minúsculo);
 
-**4.6)** Na opção **Acesso público**, deixe **Sim**;
+4.6) Crie uma senha fácil **admin12345**
 
-**4.7)** Em **Grupos de segurança da VPC existente**, deixe **default**;
+4.7) Crie uma EC2 básico, usando sistema operacional Ubuntu, salve a chave **pem** no seu PC, coloque na VPC que você acabou de criar, coloque na sub-rede privada que criou. Quando você amarrar o seu EC2 à VPC, e depois, amarrar o seu RDS ao EC2, automaticamente, seu RDS estará na sua VPC.
 
-**4.8)** Não mexa em mais nenhum opção, e 
+4.8) Na opção **Nuvem privada virtual (VPC)**, deve aparecer o nome da sua VPC após associar ao EC2. Em **Grupos de sub-rede de banco de dados**, deixe **Configuração automática**.
+
+**4.7)** Em **Grupos de segurança da VPC (firewall)**, deixe **Selecionar existente**;
+
+**4.8)** Não mexa em mais nenhum opção, e cliquem em **Criar banco de dados**.
 
 
 4.4) Selecione a classe do banco de dados (como db.t3.micro para testes gratuitos).
