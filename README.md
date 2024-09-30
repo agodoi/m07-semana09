@@ -70,7 +70,7 @@ sql = "SELECT id FROM users WHERE username='" + user + "' AND password='" + pass
   
 - A consulta tenta selecionar o ```id``` de um usuário a partir de uma tabela ```users```, onde o campo ```username``` deve corresponder ao valor da variável ```user```, e o campo ```password``` deve corresponder ao valor da variável ```pass```.
 
-- A expressão ````user``` + "' AND password='" + pass + "` insere diretamente os valores de `user` e `pass` na string SQL. Isso é uma forma arriscada de construir consultas SQL, pois o conteúdo de `user` e `pass` não está sendo verificado ou tratado de forma segura.
+- A expressão ```user + "' AND password='" + pass + "``` insere diretamente os valores de `user` e `pass` na string SQL. Isso é uma forma arriscada de construir consultas SQL, pois o conteúdo de `user` e `pass` não está sendo verificado ou tratado de forma segura.
 
 ### 3. **Risco de SQL Injection:**
    - **Problema principal:** Esta técnica de concatenar valores diretamente na consulta expõe o sistema a ataques de **SQL injection**.
