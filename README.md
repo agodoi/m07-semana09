@@ -101,8 +101,15 @@ A consulta SQL montada será: ```SELECT id FROM users WHERE username='godoi' AND
 
 Com esta consulta o banco de dados SQL vai procurar por uma linha no banco de dados cuja coluna username seja **godoi** e cuja coluna password seja **admin12345**. Se encontrar, retorna o valor da coluna id para essa linha
 
-![image](https://github.com/user-attachments/assets/1b091908-79a1-4f0b-84ad-1a8fa585ccc4)
 
+|id|username|password|
+|-|-|-|
+|1|admin|jklfjdaskfjalk|
+|2|godoi|admin12345|
+|3|bill|gates|
+|4|jeff|beazos|
+|5|joao|cabrobro|
+|6|ratinho|sbt|
 
 ```
 sql = "SELECT id FROM users WHERE username='" + user + "' AND password='" + pass + "'";
