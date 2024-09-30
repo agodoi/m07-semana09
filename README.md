@@ -124,14 +124,14 @@ sql = "SELECT id FROM users WHERE username='" + user + "' AND password='" + pass
 - A expressão ```user + "' AND password='" + pass + "``` insere diretamente os valores de ```user``` e ```pass``` na string SQL. Isso é uma forma arriscada de construir consultas SQL, pois o conteúdo de ```user``` e ```pass``` não está sendo verificado ou tratado de forma segura.
 
 
-#### 2.5) Exemplo de código malicioso
+#### 2.5) Exemplo 1 de código malicioso
 
 Imagine que foi digitado o seguinte:
 
 |Variável|Dado|
 |-|-|
 |Username:| ```godoi```|
-|Password:| ```XxxXxxX OR 1=1```|
+|Password:| ```XxxXxxX' OR 1=1```|
 | |Falso OR True = True|
 
 #### Lembrando: na Álgebra de Boole, Falso + True = True
@@ -151,7 +151,7 @@ Imagine que foi digitado o seguinte:
 * A consulta SQL montada tem erro de sintaxe (' a mais no final):
 
 ```
-SELECT id FROM users WHERE username= 'GOYA' AND password='XxxXxxX' OR 1=1'
+SELECT id FROM users WHERE username= 'godoi' AND password='XxxXxxX' OR 1=1'
 ```
 
 * Inserção de comentário: algumas sequências de caracteres são delimitadores de início de comentários:
@@ -167,9 +167,53 @@ SELECT id FROM users WHERE username= 'GOYA' AND password='XxxXxxX' OR 1=1'
      * ' OR '1'='1' %16
 
 
+* A condição `OR 1=1` sempre será verdadeira, o que pode levar à execução de uma consulta que ignora o nome de usuário e senha corretos, permitindo ao invasor obter acesso sem fornecer uma senha válida.
 
 
-- Neste caso, a condição `OR 1=1` sempre será verdadeira, o que pode levar à execução de uma consulta que ignora o nome de usuário e senha corretos, permitindo ao invasor obter acesso sem fornecer uma senha válida.
+#### 2.6) Exemplo 2 de código malicioso
+
+Imagine que foi digitado o seguinte:
+
+|Variável|Dado|
+|-|-|
+|Username:| ```' OR 1=1 --```|
+|Password:| ``` ```|
+| |Falso OR True = True|
+
+#### Lembrando: na Álgebra de Boole, Falso + True = True
+
+<picture>
+   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.png">
+   <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.png)">
+</picture>
+
+
+#### Explicação
+
+* Neste caso, o SQL injection foi usado para contornar a autenticação do usuário.
+
+* O atacante só precisa conhecer o username ```godoi``. Por isso, deve-se evitar o ```admin```
+
+* A consulta SQL montada tem erro de sintaxe (' a mais no final):
+
+```
+SELECT id FROM users WHERE username= 'godoi' AND password='XxxXxxX' OR 1=1'
+```
+
+* Inserção de comentário: algumas sequências de caracteres são delimitadores de início de comentários:
+
+   - MySQL, MS-SQL, Oracle, PostgreSQL, SQLite:
+      * ' OR '1'='1' --
+      * ' OR '1'='1' /*
+   - MySQL:
+      * ' OR '1'='1' #
+
+   - Access (using null characters):
+     * ' OR '1'='1' %00
+     * ' OR '1'='1' %16
+
+
+* A condição `OR 1=1` sempre será verdadeira, o que pode levar à execução de uma consulta que ignora o nome de usuário e senha corretos, permitindo ao invasor obter acesso sem fornecer uma senha válida.
 
 #### 2.5) Exemplo de uma forma mais segura:
    ```
