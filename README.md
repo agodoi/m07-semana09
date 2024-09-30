@@ -62,6 +62,42 @@ Dependendo da forma que você interage com as aplicações de RDS do seu projeto
 
 #### 2.4) Exemplo de código malicioso
 
+Imagine uma aplicação como essa de login em um banco de dados.
+
+```
+<html>
+<head><title>Pagina de Login</title></head>
+  <body bgcolor='000000' text='cccccc'>
+    <font face='tahoma' color='cccccc'>
+    <center><H1>LOGIN</H1>
+    <form action='processa_login.asp' method='post'>
+      <table>
+        <tr><td>Username:</td><td>
+        <input type=text name=username size=100% width=100>
+        </input></td></tr>
+        <tr><td>Password:</td><td>
+        <input type=password name=password size=100% width=100>
+        </input></td></tr>
+      </table>
+      <input type=submit name=enviar><input type=reset name=Redefinir>
+    </form>
+  </body>
+</html>
+
+```
+
+
+
+
+Se for digitada a entrada:
+Username: GOYA
+Password: senha
+A consulta SQL montada será:
+SELECT id FROM users WHERE username='GOYA' AND password='senha'
+Com esta consulta o banco de dados SQL vai procurar por uma linha no banco de dados cuja coluna username seja GOYA e cuja coluna password seja senha. Se encontrar, retorna o valor da coluna id para essa linha
+![image](https://github.com/user-attachments/assets/1b091908-79a1-4f0b-84ad-1a8fa585ccc4)
+
+
 ```
 sql = "SELECT id FROM users WHERE username='" + user + "' AND password='" + pass + "'";
 ```
