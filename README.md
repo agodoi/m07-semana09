@@ -142,20 +142,32 @@ Imagine que foi digitado o seguinte:
 </picture>
 
 
+#### Explicação
+
+* Neste caso, o SQL injection foi usado para contornar a autenticação do usuário.
+
+* O atacante só precisa conhecer o username ```godoi``. Por isso, deve-se evitar o ```admin```
+
+* A consulta SQL montada tem erro de sintaxe (' a mais no final):
+
+```
+SELECT id FROM users WHERE username= 'GOYA' AND password='XxxXxxX' OR 1=1'
+```
+
+* Inserção de comentário: algumas sequências de caracteres são delimitadores de início de comentários:
+
+   - MySQL, MS-SQL, Oracle, PostgreSQL, SQLite:
+      * ' OR '1'='1' --
+      * ' OR '1'='1' /*
+   - MySQL:
+      * ' OR '1'='1' #
+
+   - Access (using null characters):
+     * ' OR '1'='1' %00
+     * ' OR '1'='1' %16
 
 
 
-
-- **Exemplo de ataque:** se um usuário mal-intencionado passar o seguinte valor para ```user```:
-
-     ```
-     user = "admin' OR 1=1 --"
-     ```
-     A consulta final gerada seria:
-  
-     ```
-     SELECT id FROM users WHERE username='admin' OR 1=1 --' AND password='';
-     ```
 
 - Neste caso, a condição `OR 1=1` sempre será verdadeira, o que pode levar à execução de uma consulta que ignora o nome de usuário e senha corretos, permitindo ao invasor obter acesso sem fornecer uma senha válida.
 
