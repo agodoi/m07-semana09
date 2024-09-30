@@ -60,7 +60,7 @@ Dependendo da forma que você interage com as aplicações de RDS do seu projeto
 ### Imagine os valores dos celulares sendo alterados para baixo, criando uma corrida frenética nos sites. Ou, um roubo de cartões de crédito + CVC.
 
 
-#### 2.4) Exemplo de código malicioso
+#### 2.4) Exemplo de código vulnerável
 
 Imagine uma aplicação como essa de login em um banco de dados.
 
@@ -121,7 +121,29 @@ sql = "SELECT id FROM users WHERE username='" + user + "' AND password='" + pass
   
 - A consulta tenta selecionar o ```id``` de um usuário a partir de uma tabela ```users```, onde o campo ```username``` deve corresponder ao valor da variável ```user```, e o campo ```password``` deve corresponder ao valor da variável ```pass```.
 
-- A expressão ```user + "' AND password='" + pass + "``` insere diretamente os valores de ```user``` e ```pass``` na string SQL. Isso é uma forma arriscada de construir consultas SQL, pois o conteúdo de ```user``` e ```pass``` não está sendo verificado ou tratado de forma segura. **Exemplo de ataque:** se um usuário mal-intencionado passar o seguinte valor para ```user```:
+- A expressão ```user + "' AND password='" + pass + "``` insere diretamente os valores de ```user``` e ```pass``` na string SQL. Isso é uma forma arriscada de construir consultas SQL, pois o conteúdo de ```user``` e ```pass``` não está sendo verificado ou tratado de forma segura.
+
+
+#### 2.5) Exemplo de código malicioso
+
+Imagine que foi digitado o seguinte:
+
+* Username: ```godoi```
+  
+* Password: ```XxxXxxX' OR 1=1```
+
+
+<picture>
+   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.jpg">
+   <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.jpg)">
+</picture>
+
+
+
+
+
+
+- **Exemplo de ataque:** se um usuário mal-intencionado passar o seguinte valor para ```user```:
 
      ```
      user = "admin' OR 1=1 --"
