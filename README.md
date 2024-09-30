@@ -218,8 +218,13 @@ SELECT id FROM users WHERE username= ' ' OR 1=1 --' AND password=' '
 Ao se usar HTTP/GET, as variáveis do formulário ficam expostas na barra de navegação e oferecem um ponto de partida para manipulação. Por exemplo:
 ```http://testphp.vulnweb.com/artists.php?artist=1```
 
-O formulário tem um método **get** que expõe a variável ```artist=1``` acima
+O formulário tem um método **get** que expõe a variável ```artist=1```. Veja a foto e o site [http://testphp.vulnweb.com/artists.php?artist=2](http://testphp.vulnweb.com/artists.php?artist=2)
 
+
+<picture>
+   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_04.png">
+   <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_04.png)">
+</picture>
 
 #### 2.5) Exemplo de uma forma mais segura:
    ```
