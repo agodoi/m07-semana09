@@ -132,9 +132,9 @@ Imagine que foi digitado o seguinte:
 |-|-|
 |Username:| ```godoi```|
 |Password:| ```XxxXxxX OR 1=1```|
-| |Falso Or True = True|
+| |Falso OR True = True|
 
-
+* Álgebra de Boole: Falso + True = True
 
 <picture>
    <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.png">
