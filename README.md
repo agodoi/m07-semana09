@@ -226,54 +226,143 @@ O formulário tem um método **get** que expõe a variável ```artist=1```. Veja
    <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_04.png)">
 </picture>
 
-#### 2.5) Exemplo de uma forma mais segura:
-   ```
-   $stmt = $mysqli->prepare("SELECT id FROM users WHERE username = ? AND password = ?");
-   $stmt->bind_param("ss", $user, $pass);
-   $stmt->execute();
-   $result = $stmt->get_result();
-   ```
 
-Neste exemplo, o ```?``` atua como um placeholder para os valores de ```user``` e ```pass```, que são vinculados de maneira segura à consulta usando o método ```bind_param()```. Isso garante que os valores sejam tratados como dados, evitando injeções de SQL.
+### 3) Prevenções
 
+#### 3.1) Prevenção usando ASP (Active Server Pages)
 
+A prevenção é simples, mas o sucesso do ataque acaba sendo consequência da falta de preparo dos desenvolvedores. Web Application Firewalls não detectam as vulnerabilidades, mas sinalizam alarmes em situações conhecidas de ataque ou em situações de grande número de erros ou UNIONS dentro de solicitações.
 
+As linguagens modernas para web fazem a defesa baseada na preparação das consultas SQL antes de serem submetidas ao banco
 
+Em ASP, que é uma tecnologia da Microsoft para gerar páginas da web de forma dinâmica, indica-se não operar com as strings de consulta diretamente:
 
+```
+user = getRequestString("username");
+txtSQL = "SELECT * FROM users WHERE UserId = @0";
+db.Execute(txtSQL, user);
 
+id = 999
+user = getRequestString("username");
+pass = getRequestString("password");
+txtSQL = "INSERT INTO users (id,user,pass) Values(@0, @1, @2)";
+db.Execute(txtSQL, id, user, pass);
+```
 
+#### Explicação:
 
-## 3) Prevenção de SQL Injection usando AWS
+Este código está realizando duas operações SQL separadas: uma **consulta** e uma **inserção** no banco de dados. Vamos entender cada parte do código didaticamente.
 
-### 3.1) Validação de Entrada
-   - Filtragem e Sanitização: certifique-se de que todas as entradas sejam validadas e filtradas para eliminar comandos SQL maliciosos. Nunca confie em dados vindos do usuário.
-   
-   Exemplo de Código Segurizado (Usando Prepared Statements com PHP e MySQL):
-   
-   ```
-   $stmt = $mysqli->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
-   $stmt->bind_param("ss", $username, $password);
-   $stmt->execute();
-   $result = $stmt->get_result();
-   ```
-   *Usar prepared statements impede que o atacante insira código SQL diretamente na consulta.*
-   
+- **```getRequestString("username")```**: Esta função está obtendo o valor do campo `username` da requisição (pode ser de um formulário HTML, por exemplo). Este valor é atribuído à variável `user`.
+  
+- **``txtSQL = "SELECT * FROM users WHERE UserId = @0";```**: Aqui está sendo criada uma string SQL, que é um comando de **SELECT** para buscar todos os dados (`*`) da tabela `users`, onde o valor da coluna `UserId` corresponde ao valor que será fornecido na execução da consulta. O `@0` é um **placeholder**, ou seja, será substituído pelo valor de `user` na execução da consulta.
 
-No código fornecido, o método **$mysqli->prepare()** está sendo utilizado para criar uma declaração preparada (prepared statement) no banco de dados MySQL com espaços reservados (?) para parâmetros, que serão posteriormente substituídos por valores reais. Isso é útil por vários motivos, especialmente em termos de segurança e eficiência.
+- **```db.Execute(txtSQL, user);```**: Este comando está executando a consulta no banco de dados. O método `db.Execute` substitui o placeholder `@0` pelo valor de `user` e então executa a consulta. O objetivo aqui é buscar todas as informações de um usuário específico com o `UserId` que foi recebido na requisição.
 
-Benefícios do **prepare()**:
+- **id = 999**: está sendo definida uma variável ```id``` com valor fixo de **999**. Isso sugere que um novo usuário será inserido no banco de dados com esse ID.
 
-O uso de uma declaração preparada ajuda a evitar ataques de SQL injection. Com o **prepare()**, os parâmetros **($username e $password)** são tratados como dados e não como parte da consulta SQL. Isso significa que mesmo se um usuário tentar injetar código malicioso, ele será tratado como uma simples string, em vez de ser executado como parte da consulta.
+- **```user = getRequestString("username"); e pass = getRequestString("password");```**: assim como no exemplo anterior, o código obtém os valores dos campos ```username``` e ```password``` da requisição e os armazena nas variáveis ```user``` e ```pass```, respectivamente.
 
-Exemplo: se um usuário tentar inserir um valor como **admin' OR 1=1 --**, ele não conseguirá manipular a consulta SQL, pois essa entrada será tratada como um dado literal.
+- **```txtSQL = "INSERT INTO users (id, user, pass) Values(@0, @1, @2)";```**: esta linha está montando uma string SQL para um comando de **inserção** (INSERT INTO) na tabela ```users```. A instrução indica que serão inseridos valores para as colunas ```id```, ```user```, e ```pass```. Os placeholders ```@0```, ```@1```, e ```@2``` serão substituídos pelos valores de ```id```, ```user```, e ```pass```, respectivamente.
 
-Em vez de inserir diretamente os valores na string SQL, você usa placeholders (?). Posteriormente, os valores reais são vinculados a esses placeholders com o método bind_param().
+- **```db.Execute(txtSQL, id, user, pass);```**: finalmente, a execução do comando SQL acontece. O método ```db.Execute``` insere no banco de dados um novo usuário com os valores fornecidos: **id = 999**, o ```username``` obtido pela requisição, e a ```password``` também obtida pela requisição.
 
 
+#### Considerações Importantes:
 
-### 3.2) Serviços da AWS para Prevenção de SQL Injection
+1. **Segurança e SQL Injection**: embora o código utilize placeholders (```@0```, ```@1```, etc.), que geralmente são seguros contra **SQL Injection**, é importante garantir que a implementação de ```db.Execute``` use **prepared statements** para evitar vulnerabilidades. Se a implementação interna da função não proteger os valores inseridos, ainda há risco de SQL Injection.
 
-#### 3.2.1) AWS WAF (Web Application Firewall)
+2. **Inserção fixa de ```id```**: o valor de ```id``` está sendo definido de forma fixa como **999**, o que pode causar problemas se a tabela ```users``` já tiver uma entrada com esse ```id```, resultando em um erro de inserção. Normalmente, o ```id``` seria gerado automaticamente pelo banco de dados, especialmente se for uma chave primária com auto-incremento.
+
+3. **Senhas não seguras**: o código está inserindo a senha diretamente no banco de dados, o que não é uma prática segura. Idealmente, as senhas devem ser **hasheadas** (usando, por exemplo, ```bcrypt```) antes de serem armazenadas.
+
+
+
+
+#### 3.2) Insado PHP para Objetos
+
+```
+$stmt = $pdo->prepare('SELECT * FROM users WHERE name = :name’);
+$stmt->execute([ 'name' => $name ]);
+foreach ($stmt as $row) { // Do something with $row }
+```
+
+#### Explicação
+
+Este código usa **PDO** (PHP Data Objects) para realizar uma consulta ao banco de dados de forma segura, evitando vulnerabilidades como SQL injection. Vamos analisar o que ele faz em cada linha.
+
+- **`$pdo->prepare()`**: Essa linha está preparando uma **declaração SQL** que será executada posteriormente. A consulta seleciona todos os dados (`*`) da tabela `users` onde o campo `name` é igual ao valor que será passado como parâmetro. O **`:name`** é um **placeholder nomeado** que será substituído pelo valor real durante a execução. Este uso de placeholders torna a consulta mais segura e protege contra SQL injection, uma vez que o valor será tratado de forma segura pelo PDO.
+
+- **`$stmt->execute()`**: Aqui a consulta SQL preparada é executada, com o valor de `:name` sendo substituído pela variável `$name`. A função `execute()` recebe um array associativo que mapeia o placeholder `:name` para o valor de `$name`. O valor de `$name` pode ter sido obtido de um formulário, por exemplo, mas como é passado de forma segura, o PDO trata o dado para evitar qualquer injeção de código.
+
+- **`foreach`**: Este laço percorre os resultados da consulta. Cada linha de resultado da tabela `users` será armazenada na variável `$row` a cada iteração. O `$row` será um array associativo que contém os dados retornados pelo banco de dados para cada linha que corresponde ao critério de consulta (onde o campo `name` é igual ao valor passado). **Dentro do `foreach`** você pode realizar operações com os dados retornados, como exibi-los ou processá-los de acordo com a lógica da aplicação.
+
+#### 3.3) Usando MySQLi
+
+```
+$stmt = $dbConnection->prepare('SELECT * FROM employees WHERE name = ?’);
+$stmt->bind_param('s', $name); // 's' variable type => 'string’
+$stmt->execute();
+$result = $stmt->get_result();
+while ($row = $result->fetch_assoc()) { // Do something with $row } 
+```
+
+#### Explicação
+
+Este código está utilizando o estilo de prepared statements do **MySQLi** em PHP para realizar uma consulta ao banco de dados de forma segura, protegendo contra ataques de **SQL Injection**. Vamos comentar cada parte do código para explicar seu funcionamento:
+
+- **```$dbConnection->prepare()```**: Esta função prepara uma declaração SQL no banco de dados. A consulta SQL aqui seleciona todos os dados (```*```) da tabela ```employees``` onde o campo ```name``` é igual a um valor que será fornecido. O **```?```** é um **placeholder**, que será substituído pelo valor real durante a execução da consulta. Ele permite que o valor seja passado de forma segura para a consulta, evitando que código malicioso seja injetado.
+
+- **```$stmt->bind_param()```**: Esta função faz a **associação** de parâmetros para os placeholders na consulta SQL. O primeiro argumento ```s``` indica que o parâmetro que será passado é do tipo **string** (```s``` significa **string**). Outros tipos possíveis seriam ```i``` para inteiros, ```d``` para decimais (doubles), etc. O segundo argumento, ```$name```, é o valor real que será passado para substituir o ```?``` na consulta SQL. Este valor pode ser obtido de um formulário ou outra fonte de entrada de dados.
+
+- **```$stmt->execute()```**: Aqui a consulta SQL é **executada** no banco de dados, com o valor associado ao placeholder sendo passado corretamente. Este método executa a consulta com o valor de ```$name``` já vinculado ao parâmetro ```?```, realizando assim a busca no banco de dados.
+
+- **```$stmt->get_result()```**: Esta função obtém o **resultado** da consulta SQL. A variável ```$result``` armazenará o conjunto de resultados retornados pela consulta, que pode conter múltiplas linhas da tabela ```employees``` se houver vários registros que correspondam ao valor de ```$name```.
+
+- **```while ($row = $result->fetch_assoc())```**: Este loop **itera sobre cada linha** de resultados retornada pela consulta. **```$result->fetch_assoc()```**: Esta função retorna cada linha de resultados da consulta como um array associativo, onde as chaves são os nomes das colunas da tabela ```employees```. Dentro do laço ```while```, você pode fazer algo com os dados em ```$row```. Por exemplo, exibir os valores das colunas, armazenar em outra estrutura, ou processá-los de acordo com a lógica de negócios da sua aplicação.
+
+### Exemplo de como manipular os dados:
+
+Dentro do loop ```while```, você pode acessar as colunas da tabela ```employees``` assim:
+
+```php
+while ($row = $result->fetch_assoc()) {
+    echo "Nome: " . $row['name'] . "<br>";
+    echo "Cargo: " . $row['position'] . "<br>";
+}
+```
+
+Neste exemplo, supondo que a tabela ```employees``` tenha as colunas ```name``` e ```position```, o código acima exibiria o nome e o cargo de cada funcionário que corresponde ao nome passado na consulta.
+
+
+#### 3.4) Usando Java
+
+```
+var sql = "SELECT * FROM table WHERE userid = ?";
+var inserts = [message.author.id];
+sql = mysql.format(sql, inserts); 
+```
+
+#### Explicação
+
+Esse código está utilizando **MySQL** no Node.js (ou ambiente JavaScript similar) para realizar uma consulta SQL de forma segura. Ele prepara uma consulta SQL e insere valores dinamicamente, prevenindo **SQL Injection** ao usar a função ```mysql.format()```. Vamos explicar cada parte:
+
+- **var sql = "SELECT * FROM table WHERE userid = ?";** esta linha está criando uma **string SQL** que seleciona todos os dados (```*```) da tabela chamada ```table```, onde o valor da coluna ```userid``` será substituído por um valor dinâmico. O símbolo **```?```** é um **placeholder**. Ele será substituído posteriormente por um valor real, que será fornecido através da variável ```inserts```.
+
+- **var inserts = [message.author.id];** esta linha cria um **array** chamado ```inserts```, onde o valor dentro do array é **```message.author.id```**. Em **```message.author.id```**, esta variável provavelmente contém o ID de um usuário, possivelmente extraído de uma mensagem em um sistema (como Discord ou outra plataforma de mensagens). Esse ID será usado para substituir o ```?``` na string SQL.
+
+- **sql = mysql.format(sql, inserts);** a função **```mysql.format()```** substitui o placeholder ```?``` na consulta SQL pelo valor fornecido no array ```inserts```. Em **```mysql.format()```** garante que o valor seja corretamente escapado para prevenir **SQL Injection**, tratando a variável como um dado, em vez de permitir que seja interpretada como parte da consulta SQL. Neste caso, ele substitui o ```?``` por ```message.author.id```. Exemplo de resultado após ```mysql.format()```. Suponha que o ```message.author.id``` tenha o valor **12345**. Após o uso de ```mysql.format()```, a consulta SQL final poderia se parecer com:
+
+```sql
+SELECT * FROM table WHERE userid = '12345';
+```
+
+- Ao usar ```mysql.format()```, a função substitui o placeholder ```?``` de maneira segura, escapando corretamente os valores e impedindo que entradas maliciosas sejam executadas como parte do SQL. Por exemplo, se alguém tentasse injetar uma string perigosa como ```"' OR '1'='1"```, ela seria tratada como uma simples string e não como parte do SQL.
+
+
+## 4) Prevenção de SQL Injection usando AWS
+
+### 4.1) AWS WAF (Web Application Firewall)
    - Função: O AWS WAF ajuda a proteger suas aplicações web contra explorações comuns, incluindo SQL Injection.
    - Como configurar para SQL Injection:
      - No AWS WAF, crie regras personalizadas que bloqueiam ou limitam tentativas de SQL Injection.
@@ -285,7 +374,7 @@ Em vez de inserir diretamente os valores na string SQL, você usa placeholders (
 
 ---
 
-##### 3.2.2) Amazon RDS (Relational Database Service)
+##### 4.2) Amazon RDS (Relational Database Service)
    - Função: Gerenciamento seguro de bancos de dados, com encriptação automática de dados e proteção contra falhas de segurança comuns.
    - Configurações para melhorar a segurança:
      - IAM Authentication: Use autenticação baseada no IAM para evitar senhas SQL hardcoded.
@@ -294,7 +383,7 @@ Em vez de inserir diretamente os valores na string SQL, você usa placeholders (
 
 ---
 
-##### 3.2.3) Amazon Cognito
+##### 4.3) Amazon Cognito
    - Função: Gerenciamento de autenticação de usuários com foco na segurança.
    - Como ajuda a prevenir SQL Injection:
      - Cognito permite que sua aplicação autentique usuários sem precisar manipular diretamente as senhas no código-fonte. Isso reduz o risco de injeções maliciosas em campos sensíveis.
@@ -302,7 +391,7 @@ Em vez de inserir diretamente os valores na string SQL, você usa placeholders (
 
 ---
 
-##### 3.2.4) AWS Secrets Manager
+##### 4.4) AWS Secrets Manager
    - Função: Protege segredos necessários pela aplicação (como senhas de banco de dados) e faz a rotação automática.
    - Como utilizar:
      - Configure o AWS Secrets Manager para gerenciar credenciais do banco de dados.
@@ -317,8 +406,8 @@ Em vez de inserir diretamente os valores na string SQL, você usa placeholders (
 ---
 
 
-
-## X) Outras Boas Práticas de Segurança na AWS
+#### 4.5) Outras Boas Práticas de Segurança na AWS
+   
    - Least Privilege Principle (Princípio do Menor Privilégio): Assegure-se de que os usuários e aplicações tenham apenas as permissões necessárias. Evite dar privilégios administrativos sem necessidade.
    - Multi-Factor Authentication (MFA): Habilite MFA para usuários IAM para aumentar a segurança das credenciais.
    - Security Groups & NACLs: Limite o acesso ao banco de dados usando regras de Security Groups e Network ACLs, permitindo apenas o tráfego necessário.
