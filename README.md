@@ -95,12 +95,12 @@ Imagine uma aplicação como essa de login em um banco de dados.
 Se for digitada a entrada:
 
 * Username: godoi
+  
 * Password: admin12345
 
 A consulta SQL montada será: ```SELECT id FROM users WHERE username='godoi' AND password='admin12345'
 
-Com esta consulta o banco de dados SQL vai procurar por uma linha no banco de dados cuja coluna username seja **godoi** e cuja coluna password seja **admin12345**. Se encontrar, retorna o valor da coluna id para essa linha
-
+Com esta consulta o banco de dados SQL vai procurar por uma linha no banco de dados cuja coluna username seja **godoi** e cuja coluna password seja **admin12345**. Se encontrar, retorna o valor da coluna id para essa linha.
 
 |id|username|password|
 |-|-|-|
@@ -110,6 +110,8 @@ Com esta consulta o banco de dados SQL vai procurar por uma linha no banco de da
 |4|jeff|beazos|
 |5|joao|cabrobro|
 |6|ratinho|sbt|
+
+#### Explicação:
 
 ```
 sql = "SELECT id FROM users WHERE username='" + user + "' AND password='" + pass + "'";
