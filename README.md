@@ -39,6 +39,8 @@ Dependendo da forma que você interage com as aplicações de RDS do seu projeto
    - O sistema descrito precisa suportar grandes volumes de transações. Implementar medidas de segurança contra SQL Injection permite que a plataforma escale de forma segura, sem se tornar mais vulnerável à medida que o volume de usuários e transações cresce.
 
 
+
+
 ## 2) Como funciona o ataque?
 
 #### 2.1) Um atacante insere código SQL malicioso em um campo de entrada de um site ou aplicação, isto é, ele usa a sua API, a sua aplicação para chegar no seu RDS.
@@ -57,6 +59,57 @@ Dependendo da forma que você interage com as aplicações de RDS do seu projeto
 
 ### Imagine os valores dos celulares sendo alterados para baixo, criando uma corrida frenética nos sites. Ou, um roubo de cartões de crédito + CVC.
 
+
+#### 2.4) Exemplo de código malicioso
+
+```
+sql = "SELECT id FROM users WHERE username='" + user + "' AND password='" + pass + "'";
+```
+
+- O código está montando uma string SQL de forma dinâmica, concatenando os valores das variáveis ```user``` e ```pass``` diretamente na consulta SQL.
+  
+- A consulta tenta selecionar o ```id``` de um usuário a partir de uma tabela ```users```, onde o campo ```username``` deve corresponder ao valor da variável ```user```, e o campo ```password``` deve corresponder ao valor da variável ```pass```.
+
+- A expressão ````user``` + "' AND password='" + pass + "` insere diretamente os valores de `user` e `pass` na string SQL. Isso é uma forma arriscada de construir consultas SQL, pois o conteúdo de `user` e `pass` não está sendo verificado ou tratado de forma segura.
+
+### 3. **Risco de SQL Injection:**
+   - **Problema principal:** Esta técnica de concatenar valores diretamente na consulta expõe o sistema a ataques de **SQL injection**.
+   - **Exemplo de ataque:**
+     Se um usuário mal-intencionado passar o seguinte valor para `user`:
+     ```sql
+     user = "admin' OR 1=1 --"
+     ```
+     A consulta final gerada seria:
+     ```sql
+     SELECT id FROM users WHERE username='admin' OR 1=1 --' AND password='';
+     ```
+     - Neste caso, a condição `OR 1=1` sempre será verdadeira, o que pode levar à execução de uma consulta que ignora o nome de usuário e senha corretos, permitindo ao invasor obter acesso sem fornecer uma senha válida.
+
+### 4. **Forma Correta:**
+   - O ideal é usar **prepared statements** (declarações preparadas) com parâmetros vinculados, em vez de concatenar diretamente valores nas strings SQL. Isso evita o risco de SQL injection, pois os valores são tratados como dados e não como parte da consulta.
+
+### Exemplo de uma forma mais segura:
+   ```php
+   $stmt = $mysqli->prepare("SELECT id FROM users WHERE username = ? AND password = ?");
+   $stmt->bind_param("ss", $user, $pass);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   ```
+
+Neste exemplo, o `?` atua como um placeholder para os valores de `user` e `pass`, que são vinculados de maneira segura à consulta usando o método `bind_param()`. Isso garante que os valores sejam tratados como dados, evitando injeções de SQL.
+
+### Resumo:
+- O código original **não é seguro** e pode ser explorado por um invasor para executar ataques de SQL injection.
+- A solução recomendada é usar **prepared statements** para evitar esse tipo de vulnerabilidade.
+
+
+
+
+
+
+
+
+
 ## 3) Prevenção de SQL Injection usando AWS
 
 ### 3.1) Validação de Entrada
@@ -73,6 +126,18 @@ Dependendo da forma que você interage com as aplicações de RDS do seu projeto
    *Usar prepared statements impede que o atacante insira código SQL diretamente na consulta.*
 
 ---
+
+No código fornecido, o método **$mysqli->prepare()** está sendo utilizado para criar uma declaração preparada (prepared statement) no banco de dados MySQL com espaços reservados (?) para parâmetros, que serão posteriormente substituídos por valores reais. Isso é útil por vários motivos, especialmente em termos de segurança e eficiência.
+
+Benefícios do **prepare()**:
+
+O uso de uma declaração preparada ajuda a evitar ataques de SQL injection. Com o **prepare()**, os parâmetros **($username e $password)** são tratados como dados e não como parte da consulta SQL. Isso significa que mesmo se um usuário tentar injetar código malicioso, ele será tratado como uma simples string, em vez de ser executado como parte da consulta.
+
+Exemplo: se um usuário tentar inserir um valor como **admin' OR 1=1 --**, ele não conseguirá manipular a consulta SQL, pois essa entrada será tratada como um dado literal.
+
+Em vez de inserir diretamente os valores na string SQL, você usa placeholders (?). Posteriormente, os valores reais são vinculados a esses placeholders com o método bind_param().
+
+
 
 ### 3.2) Serviços da AWS para Prevenção de SQL Injection
 
