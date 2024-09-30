@@ -203,6 +203,12 @@ SELECT id FROM users WHERE username= ' ' OR 1=1 --' AND password=' '
    - true
 
 
+* Em SQL, pode-se encadear vários comandos em um separando-os por **;**
+   - 1=1; drop table users
+   - Múltiplas seleções podem ser formadas para um único resultado com o comando UNION
+
+
+
 
 #### 2.5) Exemplo de uma forma mais segura:
    ```
