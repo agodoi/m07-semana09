@@ -128,9 +128,11 @@ sql = "SELECT id FROM users WHERE username='" + user + "' AND password='" + pass
 
 Imagine que foi digitado o seguinte:
 
-* Username: ```godoi```
-  
-* Password: ```XxxXxxX' OR 1=1```
+|Username:| ```godoi```|
+|-|-|
+|Password:| ```XxxXxxX OR 1=1```|
+| |Falso Or True = True|
+
 
 
 <picture>
