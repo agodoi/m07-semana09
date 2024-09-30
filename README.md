@@ -70,38 +70,28 @@ sql = "SELECT id FROM users WHERE username='" + user + "' AND password='" + pass
   
 - A consulta tenta selecionar o ```id``` de um usuário a partir de uma tabela ```users```, onde o campo ```username``` deve corresponder ao valor da variável ```user```, e o campo ```password``` deve corresponder ao valor da variável ```pass```.
 
-- A expressão ```user + "' AND password='" + pass + "``` insere diretamente os valores de `user` e `pass` na string SQL. Isso é uma forma arriscada de construir consultas SQL, pois o conteúdo de `user` e `pass` não está sendo verificado ou tratado de forma segura.
+- A expressão ```user + "' AND password='" + pass + "``` insere diretamente os valores de ```user``` e ```pass``` na string SQL. Isso é uma forma arriscada de construir consultas SQL, pois o conteúdo de ```user``` e ```pass``` não está sendo verificado ou tratado de forma segura. **Exemplo de ataque:** se um usuário mal-intencionado passar o seguinte valor para ```user```:
 
-### 3. **Risco de SQL Injection:**
-   - **Problema principal:** Esta técnica de concatenar valores diretamente na consulta expõe o sistema a ataques de **SQL injection**.
-   - **Exemplo de ataque:**
-     Se um usuário mal-intencionado passar o seguinte valor para `user`:
-     ```sql
+     ```
      user = "admin' OR 1=1 --"
      ```
      A consulta final gerada seria:
-     ```sql
+  
+     ```
      SELECT id FROM users WHERE username='admin' OR 1=1 --' AND password='';
      ```
-     - Neste caso, a condição `OR 1=1` sempre será verdadeira, o que pode levar à execução de uma consulta que ignora o nome de usuário e senha corretos, permitindo ao invasor obter acesso sem fornecer uma senha válida.
 
-### 4. **Forma Correta:**
-   - O ideal é usar **prepared statements** (declarações preparadas) com parâmetros vinculados, em vez de concatenar diretamente valores nas strings SQL. Isso evita o risco de SQL injection, pois os valores são tratados como dados e não como parte da consulta.
+- Neste caso, a condição `OR 1=1` sempre será verdadeira, o que pode levar à execução de uma consulta que ignora o nome de usuário e senha corretos, permitindo ao invasor obter acesso sem fornecer uma senha válida.
 
-### Exemplo de uma forma mais segura:
-   ```php
+#### 2.5) Exemplo de uma forma mais segura:
+   ```
    $stmt = $mysqli->prepare("SELECT id FROM users WHERE username = ? AND password = ?");
    $stmt->bind_param("ss", $user, $pass);
    $stmt->execute();
    $result = $stmt->get_result();
    ```
 
-Neste exemplo, o `?` atua como um placeholder para os valores de `user` e `pass`, que são vinculados de maneira segura à consulta usando o método `bind_param()`. Isso garante que os valores sejam tratados como dados, evitando injeções de SQL.
-
-### Resumo:
-- O código original **não é seguro** e pode ser explorado por um invasor para executar ataques de SQL injection.
-- A solução recomendada é usar **prepared statements** para evitar esse tipo de vulnerabilidade.
-
+Neste exemplo, o ```?``` atua como um placeholder para os valores de ```user``` e ```pass```, que são vinculados de maneira segura à consulta usando o método ```bind_param()```. Isso garante que os valores sejam tratados como dados, evitando injeções de SQL.
 
 
 
