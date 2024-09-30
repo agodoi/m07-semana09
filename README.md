@@ -134,7 +134,7 @@ Imagine que foi digitado o seguinte:
 |Password:| ```XxxXxxX OR 1=1```|
 | |Falso OR True = True|
 
-* Álgebra de Boole: Falso + True = True
+#### Lembrando: na Álgebra de Boole, Falso + True = True
 
 <picture>
    <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.png">
