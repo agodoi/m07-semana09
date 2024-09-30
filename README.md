@@ -1,4 +1,4 @@
-# Prevenção Contra SQL Injection
+![image](https://github.com/user-attachments/assets/c6f268b1-58cb-4967-8dcc-01fe2eb454c7)# Prevenção Contra SQL Injection
 
 Neste encontro iremos abordar a proteção de dados na nuvem no contexto de desenvolvimento de aplicações seguras e proteção contra ataques de SQL Injection.
 
@@ -183,37 +183,26 @@ Imagine que foi digitado o seguinte:
 #### Lembrando: na Álgebra de Boole, Falso + True = True
 
 <picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.png">
-   <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.png)">
+   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_03.png">
+   <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_03.png)">
 </picture>
 
 
 #### Explicação
 
-* Neste caso, o SQL injection foi usado para contornar a autenticação do usuário.
-
-* O atacante só precisa conhecer o username ```godoi``. Por isso, deve-se evitar o ```admin```
-
-* A consulta SQL montada tem erro de sintaxe (' a mais no final):
-
 ```
-SELECT id FROM users WHERE username= 'godoi' AND password='XxxXxxX' OR 1=1'
+SELECT id FROM users WHERE username= ' ' OR 1=1 --' AND password=' '
 ```
 
-* Inserção de comentário: algumas sequências de caracteres são delimitadores de início de comentários:
+* Nesse caso, nem mesmo username válido é preciso.
 
-   - MySQL, MS-SQL, Oracle, PostgreSQL, SQLite:
-      * ' OR '1'='1' --
-      * ' OR '1'='1' /*
-   - MySQL:
-      * ' OR '1'='1' #
-
-   - Access (using null characters):
-     * ' OR '1'='1' %00
-     * ' OR '1'='1' %16
+* O atacante nem sempre sabe qual servidor SQL está em execução. Assim, a condição “Sempre TRUE” pode variar e é detectado por tentativa e erro:
+   - '1'='1' 
+   - 1=1
+   - =
+   - true
 
 
-* A condição `OR 1=1` sempre será verdadeira, o que pode levar à execução de uma consulta que ignora o nome de usuário e senha corretos, permitindo ao invasor obter acesso sem fornecer uma senha válida.
 
 #### 2.5) Exemplo de uma forma mais segura:
    ```
