@@ -128,7 +128,7 @@ sql = "SELECT id FROM users WHERE username='" + user + "' AND password='" + pass
 
 Imagine que foi digitado o seguinte:
 
-|Cenário|
+|Variável|Dado|
 |-|-|
 |Username:| ```godoi```|
 |Password:| ```XxxXxxX OR 1=1```|
