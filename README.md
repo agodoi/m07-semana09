@@ -86,15 +86,21 @@ Imagine uma aplicação como essa de login em um banco de dados.
 
 ```
 
-
+<picture>
+   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_01.jpg">
+   <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_01.jpg)">
+</picture>
 
 
 Se for digitada a entrada:
-Username: GOYA
-Password: senha
-A consulta SQL montada será:
-SELECT id FROM users WHERE username='GOYA' AND password='senha'
-Com esta consulta o banco de dados SQL vai procurar por uma linha no banco de dados cuja coluna username seja GOYA e cuja coluna password seja senha. Se encontrar, retorna o valor da coluna id para essa linha
+
+* Username: godoi
+* Password: admin12345
+
+A consulta SQL montada será: ```SELECT id FROM users WHERE username='godoi' AND password='admin12345'
+
+Com esta consulta o banco de dados SQL vai procurar por uma linha no banco de dados cuja coluna username seja **godoi** e cuja coluna password seja **admin12345**. Se encontrar, retorna o valor da coluna id para essa linha
+
 ![image](https://github.com/user-attachments/assets/1b091908-79a1-4f0b-84ad-1a8fa585ccc4)
 
 
