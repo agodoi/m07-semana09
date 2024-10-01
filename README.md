@@ -261,9 +261,9 @@ Este código está realizando duas operações SQL separadas: uma **consulta** e
 
 - **```getRequestString("username")```**: Esta função está obtendo o valor do campo `username` da requisição (pode ser de um formulário HTML, por exemplo). Este valor é atribuído à variável `user`.
   
-- **``txtSQL = "SELECT * FROM users WHERE UserId = @0";```**: Aqui está sendo criada uma string SQL, que é um comando de **SELECT** para buscar todos os dados (`*`) da tabela `users`, onde o valor da coluna `UserId` corresponde ao valor que será fornecido na execução da consulta. O `@0` é um **placeholder**, ou seja, será substituído pelo valor de `user` na execução da consulta.
+- **```txtSQL = "SELECT * FROM users WHERE UserId = @0";```**: Aqui está sendo criada uma string SQL, que é um comando de **SELECT** para buscar todos os dados (```*```) da tabela ```users```, onde o valor da coluna ```UserId``` corresponde ao valor que será fornecido na execução da consulta. O ```@0``` é um **placeholder**, ou seja, será substituído pelo valor de ```user``` na execução da consulta.
 
-- **```db.Execute(txtSQL, user);```**: Este comando está executando a consulta no banco de dados. O método `db.Execute` substitui o placeholder `@0` pelo valor de `user` e então executa a consulta. O objetivo aqui é buscar todas as informações de um usuário específico com o `UserId` que foi recebido na requisição.
+- **```db.Execute(txtSQL, user);```**: Este comando está executando a consulta no banco de dados. O método ```db.Execute``` substitui o placeholder ```@0``` pelo valor de ```user``` e então executa a consulta. O objetivo aqui é buscar todas as informações de um usuário específico com o ```UserId``` que foi recebido na requisição.
 
 - **id = 999**: está sendo definida uma variável ```id``` com valor fixo de **999**. Isso sugere que um novo usuário será inserido no banco de dados com esse ID.
 
@@ -297,11 +297,11 @@ foreach ($stmt as $row) { // Do something with $row }
 
 Este código usa **PDO** (PHP Data Objects) para realizar uma consulta ao banco de dados de forma segura, evitando vulnerabilidades como SQL injection. Vamos analisar o que ele faz em cada linha.
 
-- **`$pdo->prepare()`**: Essa linha está preparando uma **declaração SQL** que será executada posteriormente. A consulta seleciona todos os dados (`*`) da tabela `users` onde o campo `name` é igual ao valor que será passado como parâmetro. O **`:name`** é um **placeholder nomeado** que será substituído pelo valor real durante a execução. Este uso de placeholders torna a consulta mais segura e protege contra SQL injection, uma vez que o valor será tratado de forma segura pelo PDO.
+- **```$pdo->prepare()```**: Essa linha está preparando uma **declaração SQL** que será executada posteriormente. A consulta seleciona todos os dados (```*```) da tabela ```users``` onde o campo ```name``` é igual ao valor que será passado como parâmetro. O **```:name```** é um **placeholder nomeado** que será substituído pelo valor real durante a execução. Este uso de placeholders torna a consulta mais segura e protege contra SQL injection, uma vez que o valor será tratado de forma segura pelo PDO.
 
-- **`$stmt->execute()`**: Aqui a consulta SQL preparada é executada, com o valor de `:name` sendo substituído pela variável `$name`. A função `execute()` recebe um array associativo que mapeia o placeholder `:name` para o valor de `$name`. O valor de `$name` pode ter sido obtido de um formulário, por exemplo, mas como é passado de forma segura, o PDO trata o dado para evitar qualquer injeção de código.
+- **```$stmt->execute()```**: Aqui a consulta SQL preparada é executada, com o valor de ```:name``` sendo substituído pela variável ```$name```. A função ```execute()``` recebe um array associativo que mapeia o placeholder ```:name``` para o valor de ```$name```. O valor de ```$name``` pode ter sido obtido de um formulário, por exemplo, mas como é passado de forma segura, o PDO trata o dado para evitar qualquer injeção de código.
 
-- **`foreach`**: Este laço percorre os resultados da consulta. Cada linha de resultado da tabela `users` será armazenada na variável `$row` a cada iteração. O `$row` será um array associativo que contém os dados retornados pelo banco de dados para cada linha que corresponde ao critério de consulta (onde o campo `name` é igual ao valor passado). **Dentro do `foreach`** você pode realizar operações com os dados retornados, como exibi-los ou processá-los de acordo com a lógica da aplicação.
+- **```foreach```**: Este laço percorre os resultados da consulta. Cada linha de resultado da tabela ```users``` será armazenada na variável ```$row``` a cada iteração. O ```$row``` será um array associativo que contém os dados retornados pelo banco de dados para cada linha que corresponde ao critério de consulta (onde o campo ```name``` é igual ao valor passado). **Dentro do ```foreach```** você pode realizar operações com os dados retornados, como exibi-los ou processá-los de acordo com a lógica da aplicação.
 
 #### 3.3) Usando MySQLi
 
@@ -353,11 +353,11 @@ sql = mysql.format(sql, inserts);
 
 Esse código está utilizando **MySQL** no Node.js (ou ambiente JavaScript similar) para realizar uma consulta SQL de forma segura. Ele prepara uma consulta SQL e insere valores dinamicamente, prevenindo **SQL Injection** ao usar a função ```mysql.format()```. Vamos explicar cada parte:
 
-- **var sql = "SELECT * FROM table WHERE userid = ?";** esta linha está criando uma **string SQL** que seleciona todos os dados (```*```) da tabela chamada ```table```, onde o valor da coluna ```userid``` será substituído por um valor dinâmico. O símbolo **```?```** é um **placeholder**. Ele será substituído posteriormente por um valor real, que será fornecido através da variável ```inserts```.
+- **```var sql = "SELECT * FROM table WHERE userid = ?";```** esta linha está criando uma **string SQL** que seleciona todos os dados (```*```) da tabela chamada ```table```, onde o valor da coluna ```userid``` será substituído por um valor dinâmico. O símbolo **```?```** é um **placeholder**. Ele será substituído posteriormente por um valor real, que será fornecido através da variável ```inserts```.
 
-- **var inserts = [message.author.id];** esta linha cria um **array** chamado ```inserts```, onde o valor dentro do array é **```message.author.id```**. Em **```message.author.id```**, esta variável provavelmente contém o ID de um usuário, possivelmente extraído de uma mensagem em um sistema (como Discord ou outra plataforma de mensagens). Esse ID será usado para substituir o ```?``` na string SQL.
+- **```var inserts = [message.author.id];```** esta linha cria um **array** chamado ```inserts```, onde o valor dentro do array é **```message.author.id```**. Em **```message.author.id```**, esta variável provavelmente contém o ID de um usuário, possivelmente extraído de uma mensagem em um sistema (como Discord ou outra plataforma de mensagens). Esse ID será usado para substituir o ```?``` na string SQL.
 
-- **sql = mysql.format(sql, inserts);** a função **```mysql.format()```** substitui o placeholder ```?``` na consulta SQL pelo valor fornecido no array ```inserts```. Em **```mysql.format()```** garante que o valor seja corretamente escapado para prevenir **SQL Injection**, tratando a variável como um dado, em vez de permitir que seja interpretada como parte da consulta SQL. Neste caso, ele substitui o ```?``` por ```message.author.id```. Exemplo de resultado após ```mysql.format()```. Suponha que o ```message.author.id``` tenha o valor **12345**. Após o uso de ```mysql.format()```, a consulta SQL final poderia se parecer com:
+- **```sql = mysql.format(sql, inserts);```** a função **```mysql.format()```** substitui o placeholder ```?``` na consulta SQL pelo valor fornecido no array ```inserts```. Em **```mysql.format()```** garante que o valor seja corretamente escapado para prevenir **SQL Injection**, tratando a variável como um dado, em vez de permitir que seja interpretada como parte da consulta SQL. Neste caso, ele substitui o ```?``` por ```message.author.id```. Exemplo de resultado após ```mysql.format()```. Suponha que o ```message.author.id``` tenha o valor **12345**. Após o uso de ```mysql.format()```, a consulta SQL final poderia se parecer com:
 
 ```sql
 SELECT * FROM table WHERE userid = '12345';
