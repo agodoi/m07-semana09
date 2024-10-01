@@ -146,7 +146,7 @@ Imagine que foi digitado o seguinte:
 
 * Neste caso, o SQL injection foi usado para contornar a autenticação do usuário.
 
-* O atacante só precisa conhecer o username ```godoi``. Por isso, deve-se evitar o ```admin```
+* O atacante só precisa conhecer o username ```godoi```. Por isso, deve-se evitar o ```admin```
 
 * A consulta SQL montada tem erro de sintaxe (' a mais no final):
 
