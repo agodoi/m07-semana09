@@ -381,7 +381,7 @@ SELECT * FROM table WHERE userid = '12345';
 
 ---
 
-##### 4.2) Amazon RDS (Relational Database Service)
+#### 4.2) Amazon RDS (Relational Database Service)
    - Função: Gerenciamento seguro de bancos de dados, com encriptação automática de dados e proteção contra falhas de segurança comuns.
    - Configurações para melhorar a segurança:
      - IAM Authentication: Use autenticação baseada no IAM para evitar senhas SQL hardcoded.
@@ -390,7 +390,7 @@ SELECT * FROM table WHERE userid = '12345';
 
 ---
 
-##### 4.3) Amazon Cognito
+#### 4.3) Amazon Cognito
    - Função: Gerenciamento de autenticação de usuários com foco na segurança.
    - Como ajuda a prevenir SQL Injection:
      - Cognito permite que sua aplicação autentique usuários sem precisar manipular diretamente as senhas no código-fonte. Isso reduz o risco de injeções maliciosas em campos sensíveis.
@@ -398,7 +398,7 @@ SELECT * FROM table WHERE userid = '12345';
 
 ---
 
-##### 4.4) AWS Secrets Manager
+#### 4.4) AWS Secrets Manager
    - Função: Protege segredos necessários pela aplicação (como senhas de banco de dados) e faz a rotação automática.
    - Como utilizar:
      - Configure o AWS Secrets Manager para gerenciar credenciais do banco de dados.
