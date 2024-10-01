@@ -2,6 +2,12 @@
 
 Neste encontro iremos abordar a proteção de dados na nuvem no contexto de desenvolvimento de aplicações seguras e proteção contra ataques de SQL Injection.
 
+## Horário de Atendimento
+
+### Presencialmente, todas as terças e quintas, das 8h30 às 18h. 
+
+### No slack, ao longo da semana assim que possível.
+
 ## 1) Vantagens para o seu Projeto
 
 Entender os riscos de SQL Injection no projeto da Vivo minimiza as vulnerabilidades, já que o SQL Injection é dos ataques mais famosos que visa explorar falhas de segurança em aplicações que interagem com bancos de dados, permitindo que invasores insiram ou manipulem consultas SQL maliciosas.
@@ -231,7 +237,7 @@ O formulário tem um método **get** que expõe a variável ```artist=1```. Veja
 
 #### 3.1) Prevenção usando ASP (Active Server Pages)
 
-A prevenção é simples, mas o sucesso do ataque acaba sendo consequência da falta de preparo dos desenvolvedores. Web Application Firewalls não detectam as vulnerabilidades, mas sinalizam alarmes em situações conhecidas de ataque ou em situações de grande número de erros ou UNIONS dentro de solicitações.
+A prevenção é simples, mas o sucesso do ataque acaba sendo consequência da falta de preparo dos desenvolvedores. O serviço AWS WAF (Web Application Firewalls) não detectam as vulnerabilidades, mas sinalizam alarmes em situações conhecidas de ataque ou em situações de grande número de erros ou **UNIONS** dentro de solicitações.
 
 As linguagens modernas para web fazem a defesa baseada na preparação das consultas SQL antes de serem submetidas ao banco
 
@@ -477,3 +483,9 @@ Dec 17 2002 14:22:05 Copyright (c) 1988-2003 Microsoft Corporation Standard Edit
 /process_login.asp, line 35
 
 **Conquita do hacker:** versão do banco de dados (Microsoft SQL Server 2000) e sistema operacional (Windows NT)
+
+## 6) Atividade
+
+Cada grupo deve montar uma apresentação de até 5min explicando o que pretende fazer para impedir ataques no seu RDS e vir explicar para os demais.
+
+Todos os grupos terão 25min para montar essa apresentação.
