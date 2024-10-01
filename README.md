@@ -55,7 +55,7 @@ Dependendo da forma que você interage com as aplicações de RDS do seu projeto
 ---
 ## 2) Como funciona o ataque?
 
----
+
 #### 2.1) Um atacante insere código SQL malicioso em um campo de entrada de um site ou aplicação, isto é, ele usa a sua API, a sua aplicação para chegar no seu RDS.
 
 ---
@@ -138,7 +138,7 @@ sql = "SELECT id FROM users WHERE username='" + user + "' AND password='" + pass
 
 - A expressão ```user + "' AND password='" + pass + "``` insere diretamente os valores de ```user``` e ```pass``` na string SQL. Isso é uma forma arriscada de construir consultas SQL, pois o conteúdo de ```user``` e ```pass``` não está sendo verificado ou tratado de forma segura.
 
-
+---
 #### 2.5) Exemplo 1 de código malicioso
 
 Imagine que foi digitado o seguinte:
@@ -190,7 +190,7 @@ SELECT id FROM users WHERE username= 'godoi' AND password='XxxXxxX' OR 1=1'
 
 * A condição ```OR 1=1``` sempre será verdadeira, o que pode levar à execução de uma consulta que ignora o nome de usuário e senha corretos, permitindo ao invasor obter acesso sem fornecer uma senha válida.
 
-
+---
 #### 2.6) Exemplo 2 de código malicioso
 
 Imagine que foi digitado o seguinte:
@@ -228,6 +228,7 @@ SELECT id FROM users WHERE username= ' ' OR 1=1 --' AND password=' '
    - ```1=1; drop table users```
    - Múltiplas seleções podem ser formadas para um único resultado com o comando UNION
 
+---
 #### 2.7) Ataques em HTTP/GET
 
 Ao se usar HTTP/GET, as variáveis do formulário ficam expostas na barra de navegação e oferecem um ponto de partida para manipulação. Por exemplo:
@@ -241,7 +242,7 @@ O formulário tem um método **get** que expõe a variável ```artist=1```. Veja
    <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_04.png)">
 </picture>
 
-
+---
 ### 3) Prevenções
 
 #### 3.1) Prevenção usando ASP (Active Server Pages)
@@ -291,9 +292,7 @@ Este código está realizando duas operações SQL separadas: uma **consulta** e
 
 3. **Senhas não seguras**: o código está inserindo a senha diretamente no banco de dados, o que não é uma prática segura. Idealmente, as senhas devem ser **hasheadas** (usando, por exemplo, ```bcrypt```) antes de serem armazenadas.
 
-
-
-
+---
 #### 3.2) Insado PHP para Objetos
 
 ```
@@ -312,6 +311,7 @@ Este código usa **PDO** (PHP Data Objects) para realizar uma consulta ao banco 
 
 - **```foreach```**: Este laço percorre os resultados da consulta. Cada linha de resultado da tabela ```users``` será armazenada na variável ```$row``` a cada iteração. O ```$row``` será um array associativo que contém os dados retornados pelo banco de dados para cada linha que corresponde ao critério de consulta (onde o campo ```name``` é igual ao valor passado). **Dentro do ```foreach```** você pode realizar operações com os dados retornados, como exibi-los ou processá-los de acordo com a lógica da aplicação.
 
+---
 #### 3.3) Usando MySQLi
 
 ```
@@ -349,7 +349,7 @@ while ($row = $result->fetch_assoc()) {
 
 Neste exemplo, supondo que a tabela ```employees``` tenha as colunas ```name``` e ```position```, o código acima exibiria o nome e o cargo de cada funcionário que corresponde ao nome passado na consulta.
 
-
+---
 #### 3.4) Usando Java
 
 ```
@@ -374,7 +374,7 @@ SELECT * FROM table WHERE userid = '12345';
 
 - Ao usar ```mysql.format()```, a função substitui o placeholder ```?``` de maneira segura, escapando corretamente os valores e impedindo que entradas maliciosas sejam executadas como parte do SQL. Por exemplo, se alguém tentasse injetar uma string perigosa como ```"' OR '1'='1"```, ela seria tratada como uma simples string e não como parte do SQL.
 
-
+---
 ## 4) Prevenção de SQL Injection usando AWS
 
 ### 4.1) AWS WAF (Web Application Firewall)
@@ -389,7 +389,6 @@ SELECT * FROM table WHERE userid = '12345';
      - Preços: [https://aws.amazon.com/pt/waf/pricing/](https://aws.amazon.com/pt/waf/pricing/)
 
 ---
-
 #### 4.2) Amazon RDS (Relational Database Service)
    - Função: Gerenciamento seguro de bancos de dados, com encriptação automática de dados e proteção contra falhas de segurança comuns.
    - Configurações para melhorar a segurança:
@@ -398,7 +397,6 @@ SELECT * FROM table WHERE userid = '12345';
      - Auditoria de Logs: Ative logs de auditoria para monitorar e registrar consultas suspeitas.
 
 ---
-
 #### 4.3) Amazon Cognito
    - Função: Gerenciamento de autenticação de usuários com foco na segurança.
    - Como ajuda a prevenir SQL Injection:
@@ -420,8 +418,6 @@ SELECT * FROM table WHERE userid = '12345';
      ```
 
 ---
-
-
 #### 4.5) Outras Boas Práticas de Segurança na AWS
    
    - Least Privilege Principle (Princípio do Menor Privilégio): Assegure-se de que os usuários e aplicações tenham apenas as permissões necessárias. Evite dar privilégios administrativos sem necessidade.
@@ -430,7 +426,6 @@ SELECT * FROM table WHERE userid = '12345';
    - Monitoramento com CloudWatch e GuardDuty: Monitore atividades incomuns e potencialmente maliciosas em suas aplicações e infraestrutura, incluindo tentativas de SQL Injection.
 
 ---
-
 ## 5) Outros códigos SQL de ataque
 
 
@@ -445,6 +440,7 @@ Microsoft OLE DB Provider for ODBC Drivers error '80040e14’
 **Conquista do hacker:** Ele descobre que existe uma tabela **users** e que a primeira coluna é ```users.id```
 Usando o comando ```HAVING 1=1 --``` faria com que qualquer coisa após o -- fosse desconsiderada, porque é um comentário em SQL. Por exemplo, a parte da consulta que verifica a senha seria ignorada, o que poderia permitir o login sem fornecer uma senha válida.
 
+---
 ### 5.2) ```Username: ' group by users.id having 1=1—```
 
 -- Error
@@ -455,6 +451,7 @@ Microsoft OLE DB Provider for ODBC Drivers error '80040e14’
 
 **Conquita do hacker:** ele descobre que a segunda coluna da tabela users é ```username```
 
+---
 ### 5.3) ```Username: ' group by users.id, users.username having 1=1—```
 
 -- Error
@@ -465,6 +462,7 @@ Microsoft OLE DB Provider for ODBC Drivers error '80040e14’
 
 **Conquita do hacker:** ele descobre que a terceira coluna da tabela users é ```password```.
 
+---
 ### 5.4) ```Username: ' union select sum(username) from users—```
 
 -- Error
@@ -475,10 +473,12 @@ Microsoft OLE DB Provider for ODBC Drivers error '80040e07' [Microsoft][ODBC SQL
 
 **Conquita do hacker:** ele descobre que a segunda coluna da tabela username tem variável do tipo **varchar**.
 
+---
 ### 5.5) De posse dos campos do banco de dados, pode-se encadear (com “;”) um comando de inserção:
 
 ```Username: '; insert into users values(9999, ‘willy', 'foobar')--```
 
+---
 ### 5.6) Username: ' ' union select @@version,1,1,1—-
 
 -- Error
@@ -493,6 +493,7 @@ Dec 17 2002 14:22:05 Copyright (c) 1988-2003 Microsoft Corporation Standard Edit
 
 **Conquita do hacker:** versão do banco de dados (Microsoft SQL Server 2000) e sistema operacional (Windows NT)
 
+---
 ## 6) Atividade
 
 Cada grupo deve montar uma apresentação de até 5min explicando o que pretende fazer para impedir ataques no seu RDS e vir explicar para os demais.
