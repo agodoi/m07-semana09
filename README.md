@@ -98,7 +98,7 @@ Se for digitada a entrada:
   
 * Password: admin12345
 
-A consulta SQL montada será: ```SELECT id FROM users WHERE username='godoi' AND password='admin12345'
+A consulta SQL montada será: ```SELECT id FROM users WHERE username='godoi' AND password='admin12345'```
 
 Com esta consulta o banco de dados SQL vai procurar por uma linha no banco de dados cuja coluna username seja **godoi** e cuja coluna password seja **admin12345**. Se encontrar, retorna o valor da coluna id para essa linha.
 
