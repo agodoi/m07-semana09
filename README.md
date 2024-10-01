@@ -499,9 +499,3 @@ Dec 17 2002 14:22:05 Copyright (c) 1988-2003 Microsoft Corporation Standard Edit
 Cada grupo deve montar uma apresentação de até 5min explicando o que pretende fazer para impedir ataques no seu RDS e vir explicar para os demais.
 
 Todos os grupos terão 25min para montar essa apresentação.
-
-
-<picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_04.png">
-   <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_04.png)">
-</picture>
