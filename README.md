@@ -371,6 +371,7 @@ SELECT * FROM table WHERE userid = '12345';
      Exemplo de configuração:
      - Adicione uma regra de SQL Injection à ACL do AWS WAF.
      - Associe essa ACL à distribuição do Amazon CloudFront ou ao API Gateway.
+     - Preços: [https://aws.amazon.com/pt/waf/pricing/](https://aws.amazon.com/pt/waf/pricing/)
 
 ---
 
