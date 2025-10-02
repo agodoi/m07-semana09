@@ -93,11 +93,7 @@ Imagine uma aplicação como essa de login em um banco de dados.
 
 ```
 
-<picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_01.png">
-   <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_01.png)">
-</picture>
-
+<img src="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_01.png" width="800">
 
 Se for digitada a entrada:
 
