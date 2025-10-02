@@ -144,12 +144,6 @@ Imagine que foi digitado o seguinte:
 <img src="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.png" width="800">
 
 
-<picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.png">
-   <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.png)">
-</picture>
-
-
 #### Explicação
 
 * Neste caso, o SQL injection foi usado para contornar a autenticação do usuário.
@@ -196,11 +190,8 @@ Imagine que foi digitado o seguinte:
 
 #### Lembrando: na Álgebra de Boole, Falso + True = True
 
-<picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_03.png">
-   <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_03.png)">
-</picture>
 
+<img src="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_03.png" width="800">
 
 #### Explicação
 
@@ -230,10 +221,9 @@ Ao se usar HTTP/GET, as variáveis do formulário ficam expostas na barra de nav
 O formulário tem um método **get** que expõe a variável ```artist=1```. Veja a foto e o site [http://testphp.vulnweb.com/artists.php?artist=2](http://testphp.vulnweb.com/artists.php?artist=2)
 
 
-<picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_04.png">
-   <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_04.png)">
-</picture>
+
+<img src="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_04.png" width="800">
+
 
 ---
 ### 3) Prevenções
