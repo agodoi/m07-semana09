@@ -276,7 +276,7 @@ Este código está realizando duas operações SQL separadas: uma **consulta** e
 3. **Senhas não seguras**: o código está inserindo a senha diretamente no banco de dados, o que não é uma prática segura. Idealmente, as senhas devem ser **hasheadas** (usando, por exemplo, ```bcrypt```) antes de serem armazenadas.
 
 ---
-#### 3.2) Insado PHP para Objetos
+#### 3.2) Usando PHP para Objetos
 
 ```
 $stmt = $pdo->prepare('SELECT * FROM users WHERE name = :name’);
