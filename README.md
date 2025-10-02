@@ -12,7 +12,7 @@ Neste encontro iremos abordar a proteção de dados na nuvem no contexto de dese
 ---
 ## 1) Vantagens para o seu Projeto
 
-Entender os riscos de SQL Injection no projeto da Vivo minimiza as vulnerabilidades, já que o SQL Injection é dos ataques mais famosos que visa explorar falhas de segurança em aplicações que interagem com bancos de dados, permitindo que invasores insiram ou manipulem consultas SQL maliciosas.
+Entender os riscos de SQL Injection no projeto da venda de ingressos minimiza as vulnerabilidades, já que o SQL Injection é o ataque mais famosos que visa explorar falhas de segurança em aplicações que interagem com bancos de dados, permitindo que invasores insiram ou manipulem consultas SQL maliciosas.
 
 O SQL Injection está na mesma calçada da fama de DDoS. Aqui na [Wikipedia](https://en.wikipedia.org/wiki/SQL_injection#Examples) você encontra um histórico dos principais ataques.
 
@@ -26,30 +26,26 @@ O SQL Injection está na mesma calçada da fama de DDoS. Aqui na [Wikipedia](htt
 Dependendo da forma que você interage com as aplicações de RDS do seu projeto, o invasor pode apagar seu banco em alguns segundos.
 
 ### 1.1) Proteção de Dados Sensíveis
-   - O sistema de inventário descrito lida com a sincronização de dados de estoque de vários centros de distribuição e lojas. Proteger o banco de dados contra SQL Injection garante que informações críticas, como quantidades de estoque e detalhes de centros de distribuição, sejam mantidas seguras, impedindo o vazamento de dados internos que poderiam prejudicar a operação.
+   - O sistema de inventário de ingressos lida com a sincronização de dados de estoque entre back e front-end. Proteger o banco de dados contra SQL Injection garante que informações críticas, como quantidades de estoque e detalhes dos eventos, sejam mantidas seguras, impedindo o vazamento de dados internos que poderiam prejudicar a operação.
 
 ---
 ### 1.2) Maior Confiabilidade do Sistema
-   - Ao implementar mecanismos que evitam SQL Injection, como prepared statements ou ORM (Object-Relational Mapping), a confiabilidade do sistema aumenta, pois ele não será vulnerável a manipulações externas. Isso é crucial para garantir que o sistema de inventário distribuído continue funcionando corretamente, sem interferências de usuários maliciosos.
+   - Ao implementar mecanismos que evitam SQL Injection, como **prepared statements** ou **ORM (Object-Relational Mapping)**, a confiabilidade do sistema aumenta, pois ele não será vulnerável a manipulações externas. Isso é crucial para garantir que o sistema de venda de ingressos continue funcionando corretamente, sem interferências de usuários maliciosos.
 
 ---
-### 1.3) Preservação da Integridade dos Dados
-   - Prevenir SQL Injection assegura que os dados no banco permaneçam íntegros. Isso é essencial para o correto funcionamento do sistema de inventário, onde dados de estoque devem ser sincronizados em tempo real. A integridade dos dados é fundamental para evitar discrepâncias no inventário, o que pode resultar em falhas na entrega e no gerenciamento logístico.
+### 1.3) Conformidade com Normas de Segurança
+   - Empresas como a PulseStage estão frequentemente sujeitas a regulamentações de privacidade e segurança de dados (como LGPD). A prevenção de ataques de SQL Injection é uma prática de segurança recomendada que ajuda a empresa a se manter em conformidade com essas normas, evitando multas e danos à reputação.
 
 ---
-### 1.4) Conformidade com Normas de Segurança
-   - Empresas como a Vivo estão frequentemente sujeitas a regulamentações de privacidade e segurança de dados (como LGPD). A prevenção de ataques de SQL Injection é uma prática de segurança recomendada que ajuda a empresa a se manter em conformidade com essas normas, evitando multas e danos à reputação.
-
----
-### 1.5) Redução de Custos com Incidentes de Segurança
+### 1.4) Redução de Custos com Incidentes de Segurança
    - Investir na prevenção de ataques como o SQL Injection pode evitar incidentes de segurança caros, tanto em termos de reparo de sistemas quanto em possíveis responsabilidades legais. Isso é especialmente importante para um sistema que opera em múltiplas localidades e lida com grandes volumes de transações, como o sistema de inventário distribuído descrito.
 
 ---
-### 1.6) Melhoria na Experiência do Usuário Final
+### 1.5) Melhoria na Experiência do Usuário Final
    - Um sistema que sofre menos com falhas de segurança e funciona de forma eficiente oferece uma melhor experiência para o usuário final. No caso do e-commerce B2B e B2C, evitar SQL Injection garante que os clientes possam confiar na plataforma e na exatidão dos prazos de entrega e disponibilidade de produtos.
 
 ---
-### 1.7) Preparação para Escalabilidade
+### 1.6) Preparação para Escalabilidade
    - O sistema descrito precisa suportar grandes volumes de transações. Implementar medidas de segurança contra SQL Injection permite que a plataforma escale de forma segura, sem se tornar mais vulnerável à medida que o volume de usuários e transações cresce.
 
 ---
@@ -72,7 +68,7 @@ Dependendo da forma que você interage com as aplicações de RDS do seu projeto
 
 * Download completo da sua base.
 
-### Imagine os valores dos celulares sendo alterados para baixo, criando uma corrida frenética nos sites. Ou, um roubo de cartões de crédito + CVC.
+### Imagine os valores dos ingressos sendo alterados para baixo, criando uma corrida frenética nos sites. Ou, um roubo de cartões de crédito + CVC.
 
 ---
 #### 2.4) Exemplo de código vulnerável
