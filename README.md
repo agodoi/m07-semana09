@@ -16,7 +16,7 @@ Entender os riscos de SQL Injection no projeto da venda de ingressos minimiza as
 
 O SQL Injection está na mesma calçada da fama de DDoS. Aqui na [Wikipedia](https://en.wikipedia.org/wiki/SQL_injection#Examples) você encontra um histórico dos principais ataques.
 
-<img src="https://github.com/agodoi/sqlinjection/blob/main/imgs/sql_injection-01.jpg" width="1000">
+<img src="https://github.com/agodoi/sqlinjection/blob/main/imgs/sql_injection-01.jpg" width="800">
 
 
 Dependendo da forma que você interage com as aplicações de RDS do seu projeto, o invasor pode apagar seu banco em alguns segundos.
