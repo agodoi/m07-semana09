@@ -139,6 +139,11 @@ Imagine que foi digitado o seguinte:
 
 #### Lembrando: na Álgebra de Boole, Falso + True = True
 
+
+
+<img src="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.png" width="800">
+
+
 <picture>
    <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.png">
    <img alt="Front-end login" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/sqlinjection/blob/main/imgs/tela_banco_02.png)">
